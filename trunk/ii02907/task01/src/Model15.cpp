@@ -8,7 +8,6 @@ Model15::Model15(double a1, double a2, double b, int delay)
 }
 std::string Model15::name() const { return "Model 1.5"; }
 
-// y[t+1] = a1*y[t] + a2*y[t-k] + b*u[t]
 double Model15::calculateNext(double u, int, const std::vector<double>& history,
                               double) const {
     const double current = previousY(history, 0);

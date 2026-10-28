@@ -14,8 +14,7 @@
 enum class InputType { Constant = 1, Impulse = 2, Harmonic = 3 };
 class CsvFileException : public std::runtime_error {
 public:
-    explicit CsvFileException(const std::string& message)
-        : std::runtime_error(message) {}
+    using std::runtime_error::runtime_error;
 };
 
 double inputValue(InputType type, int step, double amplitude) {
