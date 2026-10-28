@@ -2,7 +2,7 @@ import csv
 import os
 import matplotlib.pyplot as plt
 
-HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out", "build", "x64-Debug")
+HERE = os.path.dirname(os.path.abspath(__file__))
 FILES = [
     ("model15_constant.csv", "Model 1.5 — constant input"),
     ("model15_impulse.csv", "Model 1.5 — impulse input"),
