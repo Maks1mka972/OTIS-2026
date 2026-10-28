@@ -12,6 +12,11 @@
 #include <vector>
 
 enum class InputType { Constant = 1, Impulse = 2, Harmonic = 3 };
+class CsvFileException : public std::runtime_error {
+public:
+    explicit CsvFileException(const std::string& message)
+        : std::runtime_error(message) {}
+};
 
 double inputValue(InputType type, int step, double amplitude) {
     switch (type) {
@@ -53,7 +58,7 @@ std::vector<Sample> simulate(const Model& model, InputType type, double amplitud
 
 void saveCsv(const std::string& filename, const std::vector<Sample>& samples) {
     std::ofstream out(filename);
-    if (!out) throw std::runtime_error("Cannot create file: " + filename);
+    if (!out) throw CsvFileException("Cannot create file: " + filename);
     out << "step,tau,u,y\n" << std::setprecision(12);
     for (const auto& s : samples)
         out << s.step << ',' << s.time << ',' << s.u << ',' << s.y << '\n';
@@ -71,10 +76,17 @@ void runModel(const Model& model, int steps, double dt, double amplitude) {
     for (int choice = 1; choice <= 3; ++choice) {
         const auto type = static_cast<InputType>(choice);
         const auto samples = simulate(model, type, amplitude, steps, dt);
-        const std::string filename = "model" +
-            (model.name() == "Model 1.5" ? std::string("15") :
-             model.name() == "Model 2.7" ? std::string("27") : std::string("39"))
-            + "_" + inputName(type) + ".csv";
+        std::string modelNumber;
+if (model.name() == "Model 1.5") {
+    modelNumber = "15";
+} else if (model.name() == "Model 2.7") {
+    modelNumber = "27";
+} else {
+    modelNumber = "39";
+}
+
+const std::string filename =
+    "model" + modelNumber + "_" + inputName(type) + ".csv";
         saveCsv(filename, samples);
         std::cout << "\nInput: " << inputName(type) << " | saved: " << filename << '\n';
         printSamples(samples);

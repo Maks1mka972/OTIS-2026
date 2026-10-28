@@ -8,5 +8,7 @@ public:
     double calculateNext(double u, int step, const std::vector<double>& history,
                          double dt) const override;
 private:
-    double a_, b_, epsilon_;
+    double a_;
+    double b_;
+    double epsilon_;
 };

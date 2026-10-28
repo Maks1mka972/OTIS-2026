@@ -8,6 +8,8 @@ public:
     double calculateNext(double u, int step, const std::vector<double>& history,
                          double dt) const override;
 private:
-    double a1_, a2_, b_;
+    double a1_;
+    double a2_;
+    double b_;
     int delay_;
 };
