@@ -1,4 +1,4 @@
-add_executable(task_01
+add_executable(task_01_ii02907
     main.cpp
     Model15.cpp
     Model27.cpp
