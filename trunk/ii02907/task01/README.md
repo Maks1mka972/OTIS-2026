@@ -112,7 +112,7 @@
 
 В Windows можно запустить `build.bat` из папки проекта. Скрипт конфигурирует CMake в каталоге `build` и собирает конфигурацию Release.
 
-Альтернативно команды можно выполнить вручную из папки `trunk/ii2905/task01`:
+Альтернативно команды можно выполнить вручную из папки `trunk/ii02907/task01`:
 
 ```bash
 cmake -S . -B build
@@ -137,7 +137,7 @@ cmake --build build --config Release
 
 Для построения графиков используется Python и библиотека `matplotlib`.
 
-Из папки `trunk/ii2905/task01` установить зависимость:
+Из папки `trunk/ii02907/task01` установить зависимость:
 
 ```bash
 python -m pip install -r requirements.txt
