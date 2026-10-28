@@ -5,9 +5,4 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(task_01
-    src/main.cpp
-    src/Model15.cpp
-    src/Model27.cpp
-    src/Model39.cpp
-)
+add_subdirectory(src)
