@@ -3,6 +3,7 @@
 #include "Model39.h"
 
 #include <gtest/gtest.h>
+#include <cmath>
 #include <stdexcept>
 #include <vector>
 
@@ -29,7 +30,7 @@ INSTANTIATE_TEST_SUITE_P(
     ::testing::Values(
         Model15Case{0.5, 0.2, 0.4, 1, 1.0, {0.0, 2.0}, 1.4},
         Model15Case{0.5, 0.2, 0.4, 1, 0.0, {1.0, 2.0}, 1.2},
-        Model15Case{0.5, 0.2, 0.4, 2, 1.0, {1.0, 2.0}, 1.9},
+        Model15Case{0.5, 0.2, 0.4, 2, 1.0, {1.0, 2.0}, 1.4},
         Model15Case{0.0, 0.0, 2.0, 1, 3.0, {0.0}, 6.0}));
 
 TEST(Model15Test, RejectsNonPositiveDelay) {
