@@ -21,6 +21,18 @@ if errorlevel 1 (
     exit /b 1
 )
 
+where mingw32-make >nul 2>nul
+if errorlevel 1 (
+    echo ERROR: mingw32-make was not found in PATH.
+    exit /b 1
+)
+
+where python >nul 2>nul
+if errorlevel 1 (
+    echo ERROR: Python was not found in PATH.
+    exit /b 1
+)
+
 cmake -S "%TASK_DIR%" -B "%BUILD_DIR%" -G "MinGW Makefiles" -DENABLE_COVERAGE=ON -DBUILD_TESTING=ON
 if errorlevel 1 exit /b 1
 
