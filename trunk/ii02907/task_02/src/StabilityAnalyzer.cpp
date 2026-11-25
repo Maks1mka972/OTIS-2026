@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <limits>
 #include <stdexcept>
 
 namespace {
@@ -28,7 +27,16 @@ StabilityResult StabilityAnalyzer::analyze(double a1, double a2, int delay) {
     coefficients[static_cast<std::size_t>(degree - delay)] = -a1;
     coefficients[static_cast<std::size_t>(degree)] = -a2;
 
-    // Cauchy bound: all roots lie within 1 + max(|c_i|).
+    // If a2=0, the polynomial factors as z^delay * (z-a1).
+    // Handle the repeated zero roots exactly instead of relying on iteration.
+    if (a2 == 0.0) {
+        std::vector<Complex> roots(static_cast<std::size_t>(degree), Complex{});
+        roots[0] = a1;
+        const bool stable = std::all_of(roots.begin(), roots.end(),
+            [](const Complex& root) { return std::abs(root) < 1.0 - 1e-10; });
+        return {roots, stable, true};
+    }
+
     const double radius = 1.0 + std::max(std::abs(a1), std::abs(a2));
     const double pi = std::acos(-1.0);
     std::vector<Complex> roots(static_cast<std::size_t>(degree));
@@ -43,21 +51,24 @@ StabilityResult StabilityAnalyzer::analyze(double a1, double a2, int delay) {
     constexpr int maxIterations = 3000;
     constexpr double tolerance = 1e-12;
     for (int iteration = 0; iteration < maxIterations; ++iteration) {
+        std::vector<Complex> nextRoots = roots;
         double largestChange = 0.0;
         for (int i = 0; i < degree; ++i) {
             Complex denominator = 1.0;
             for (int j = 0; j < degree; ++j) {
                 if (i != j)
                     denominator *= roots[static_cast<std::size_t>(i)] -
-                                   roots[static_cast<std::size_t>(j)];
+                                  roots[static_cast<std::size_t>(j)];
             }
             if (std::abs(denominator) < 1e-24) continue;
             const Complex correction =
                 evaluate(coefficients, roots[static_cast<std::size_t>(i)]) /
                 denominator;
-            roots[static_cast<std::size_t>(i)] -= correction;
+            nextRoots[static_cast<std::size_t>(i)] =
+                roots[static_cast<std::size_t>(i)] - correction;
             largestChange = std::max(largestChange, std::abs(correction));
         }
+        roots.swap(nextRoots);
         if (largestChange < tolerance) {
             converged = true;
             break;
