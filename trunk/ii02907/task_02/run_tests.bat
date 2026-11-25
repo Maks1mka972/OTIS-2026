@@ -1,9 +1,7 @@
 @echo off
 setlocal
-cd /d "%~dp0"
-
-set "TASK_DIR=%~dp0trunk\ii02907\task_02"
-set "BUILD_DIR=%TASK_DIR%\build"
+set "TASK_DIR=%~dp0"
+set "BUILD_DIR=%TASK_DIR%build"
 
 echo ==========================================
 echo OTIS Lab 2 - configure, build, test, cover
@@ -48,9 +46,10 @@ if errorlevel 1 (
     exit /b 1
 )
 
-python -m gcovr --root "%TASK_DIR%" --filter "%TASK_DIR%/src/" --exclude "%TASK_DIR%/test/" --html-details "%TASK_DIR%/coverage.html" --print-summary
+cd /d "%TASK_DIR%"
+python -m gcovr --root . --filter "src/" --exclude "test/" --html-details coverage.html --print-summary
 if errorlevel 1 exit /b 1
 
 echo.
-echo All tests passed. Coverage report: %TASK_DIR%\coverage.html
+echo All tests passed. Coverage report: %TASK_DIR%coverage.html
 pause
