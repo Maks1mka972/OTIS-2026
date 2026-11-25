@@ -43,10 +43,14 @@ if errorlevel 1 exit /b 1
 ctest --test-dir "%BUILD_DIR%" --output-on-failure
 if errorlevel 1 exit /b 1
 
-python -m pip install --user gcovr
+python -m gcovr --version >nul 2>nul
 if errorlevel 1 (
-    echo ERROR: Could not install gcovr. Install it with: python -m pip install --user gcovr
-    exit /b 1
+    echo gcovr is not installed. Installing...
+    python -m pip install --user gcovr
+    if errorlevel 1 (
+        echo ERROR: Could not install gcovr. Install it with: python -m pip install --user gcovr
+        exit /b 1
+    )
 )
 
 cd /d "%TASK_DIR%"
