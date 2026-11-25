@@ -1,6 +1,7 @@
 #include "StabilityAnalyzer.h"
 
 #include <gtest/gtest.h>
+#include <limits>
 #include <stdexcept>
 
 TEST(StabilityAnalyzerTest, StableRealRoots) {
@@ -8,8 +9,8 @@ TEST(StabilityAnalyzerTest, StableRealRoots) {
     EXPECT_TRUE(result.converged);
     EXPECT_TRUE(result.stable);
     ASSERT_EQ(result.roots.size(), 2U);
-    EXPECT_NEAR(std::abs(result.roots[0]), 0.0, 1e-8);
-    EXPECT_NEAR(std::abs(result.roots[1]), 0.5, 1e-8);
+    EXPECT_NEAR(std::abs(result.roots[0]), 0.5, 1e-8);
+    EXPECT_NEAR(std::abs(result.roots[1]), 0.0, 1e-8);
 }
 
 TEST(StabilityAnalyzerTest, StableComplexRoots) {
