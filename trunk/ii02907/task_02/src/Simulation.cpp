@@ -15,7 +15,8 @@ std::vector<Sample> simulate(const Model& model, const InputFunction& input,
     result.push_back({0, 0.0, input(0), 0.0});
 
     for (int step = 0; step < steps; ++step) {
-        const double u = input(step);
+        // Reuse the cached input for this step; evaluate each input step once.
+        const double u = result.back().u;
         const double nextY = model.calculateNext(u, step, history, dt);
         history.push_back(nextY);
         result.push_back({step + 1, (step + 1) * dt, input(step + 1), nextY});
